@@ -4,6 +4,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -54,6 +56,7 @@
                                 <connections>
                                     <outlet property="noteModificationTimeLabel" destination="VzN-tf-MsG" id="wgu-Uy-vaZ"/>
                                     <outlet property="noteTitleLabel" destination="Yom-xU-Ajx" id="q0i-Y9-lIb"/>
+                                    <segue destination="c1W-FP-AY1" kind="show" identifier="displayNote" id="enS-Ti-rLb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -62,11 +65,72 @@
                             <outlet property="delegate" destination="u2p-Xo-LIX" id="msW-Ug-yhm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Notes" id="T94-nR-Vng"/>
+                    <navigationItem key="navigationItem" title="Notes" id="T94-nR-Vng">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tKM-hR-vgq">
+                            <connections>
+                                <segue destination="c1W-FP-AY1" kind="show" identifier="addNote" id="yyw-6e-n2V"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dXi-TP-ue3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1501.5999999999999" y="266.71664167916043"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="bci-dR-c0a">
+            <objects>
+                <viewController id="c1W-FP-AY1" customClass="DisplayNoteViewController" customModule="MakeSchoolNotes" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pyb-xE-EBU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D81-iG-O9Y">
+                                <rect key="frame" x="15" y="54" width="345" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="lol" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mKi-Yp-Bbb">
+                                <rect key="frame" x="15" y="94" width="345" height="558"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kwX-tQ-UDM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="D81-iG-O9Y" firstAttribute="leading" secondItem="mKi-Yp-Bbb" secondAttribute="leading" id="4HJ-bZ-FE0"/>
+                            <constraint firstItem="mKi-Yp-Bbb" firstAttribute="top" secondItem="D81-iG-O9Y" secondAttribute="bottom" constant="6" id="EoI-Nf-pom"/>
+                            <constraint firstItem="D81-iG-O9Y" firstAttribute="centerX" secondItem="pyb-xE-EBU" secondAttribute="centerX" id="Ole-dv-LBd"/>
+                            <constraint firstItem="kwX-tQ-UDM" firstAttribute="bottom" secondItem="mKi-Yp-Bbb" secondAttribute="bottom" constant="15" id="Tzk-yU-kKZ"/>
+                            <constraint firstItem="D81-iG-O9Y" firstAttribute="trailing" secondItem="mKi-Yp-Bbb" secondAttribute="trailing" id="UU5-7H-TR6"/>
+                            <constraint firstItem="D81-iG-O9Y" firstAttribute="leading" secondItem="kwX-tQ-UDM" secondAttribute="leading" constant="15" id="ndF-nY-BmK"/>
+                            <constraint firstItem="D81-iG-O9Y" firstAttribute="top" secondItem="pyb-xE-EBU" secondAttribute="topMargin" constant="10" id="xW6-H7-WzG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="aUH-oJ-3VH">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="bgv-Zd-2dE">
+                            <connections>
+                                <segue destination="fRc-8h-Ccw" kind="unwind" identifier="cancel" unwindAction="unwindWithSegue:" id="P4f-4R-GTf"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="es2-sN-Mpx">
+                            <connections>
+                                <segue destination="fRc-8h-Ccw" kind="unwind" identifier="save" unwindAction="unwindWithSegue:" id="EqR-SB-txq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="contentTextView" destination="mKi-Yp-Bbb" id="7FP-ZJ-uh1"/>
+                        <outlet property="titleTextField" destination="D81-iG-O9Y" id="zKO-gk-3QH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l4t-jK-CZC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="fRc-8h-Ccw" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2223.1999999999998" y="266.71664167916043"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dwY-1V-4Tw">
@@ -87,4 +151,15 @@
             <point key="canvasLocation" x="562.39999999999998" y="266.71664167916043"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="yyw-6e-n2V"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
