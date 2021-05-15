@@ -17,6 +17,8 @@ class ListNotesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        notes = CoreDataHelper.retrieveNotes()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -27,13 +29,21 @@ class ListNotesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listNotesTableViewCell", for: indexPath) as! ListNotesTableViewCell
 
-        // 2
         let note = notes[indexPath.row]
         cell.noteTitleLabel.text = note.title
-        // 3
-        cell.noteModificationTimeLabel.text = note.modificationTime.convertToString()
+            // 1
+        cell.noteModificationTimeLabel.text = note.modificationTime?.convertToString() ?? "unknown"
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let noteToDelete = notes[indexPath.row]
+            CoreDataHelper.delete(note: noteToDelete)
+
+            notes = CoreDataHelper.retrieveNotes()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,7 +51,15 @@ class ListNotesTableViewController: UITableViewController {
 
         switch identifier {
         case "displayNote":
-            print("note cell tapped")
+            // 1
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+
+            // 2
+            let note = notes[indexPath.row]
+            // 3
+            let destination = segue.destination as! DisplayNoteViewController
+            // 4
+            destination.note = note
 
         case "addNote":
             print("create note bar button item tapped")
@@ -52,7 +70,7 @@ class ListNotesTableViewController: UITableViewController {
     }
     
     @IBAction func unwindWithSegue(_ segue: UIStoryboardSegue) {
-
+        notes = CoreDataHelper.retrieveNotes()
     }
     
 }
